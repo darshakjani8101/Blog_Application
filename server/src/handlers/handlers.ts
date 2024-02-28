@@ -10,7 +10,7 @@ import { BlogType, CommentType, UserType } from "../schema/schema";
 import User from "../models/User";
 import Blog from "../models/Blog";
 import Comment from "../models/Comment";
-import { Document } from "mongoose";
+import { Document, startSession } from "mongoose";
 import { compareSync, hashSync } from "bcryptjs";
 
 type DocumentType = Document<any, any, any>;
@@ -113,14 +113,24 @@ const mutations = new GraphQLObjectType({
         title: { type: GraphQLNonNull(GraphQLString) },
         content: { type: GraphQLNonNull(GraphQLString) },
         date: { type: GraphQLNonNull(GraphQLString) },
+        user: { type: GraphQLNonNull(GraphQLID) },
       },
-      async resolve(parent, { title, content, date }) {
+      async resolve(parent, { title, content, date, user }) {
         let blog: DocumentType;
+        const session = await startSession();
         try {
-          const blog = new Blog({ title, content, date });
-          return await blog.save();
+          session.startTransaction({ session });
+          blog = new Blog({ title, content, date, user });
+          const existingUser = await User.findById(user);
+          if (!existingUser) return new Error("User is not registered!");
+          //@ts-ignore
+          existingUser.blogs.push(blog);
+          await existingUser.save({ session });
+          return await blog.save({ session });
         } catch (error) {
           return new Error(error);
+        } finally {
+          await session.commitTransaction();
         }
       },
     },
@@ -157,12 +167,89 @@ const mutations = new GraphQLObjectType({
       },
       async resolve(parent, { id }) {
         let existingBlog: DocumentType;
+        const session = await startSession();
         try {
-          existingBlog = await Blog.findById(id);
-          if (!existingBlog) return new Error("Blog does not exist!");
-          return await Blog.findByIdAndDelete(id);
+          session.startTransaction({ session });
+          existingBlog = await Blog.findById(id).populate("user");
+          //@ts-ignore
+          const existingUser = existingBlog.user;
+          if (!existingUser || !existingBlog)
+            return new Error("User or blog does not exist!");
+          existingUser.blogs.pull(existingBlog);
+          await existingUser.save({ session });
+          return await Blog.findOneAndDelete(existingBlog.id);
         } catch (error) {
           return new Error(error);
+        } finally {
+          session.commitTransaction();
+        }
+      },
+    },
+
+    //add comment to blog
+    addCommentToBlog: {
+      type: CommentType,
+      args: {
+        blog: { type: GraphQLNonNull(GraphQLID) },
+        user: { type: GraphQLNonNull(GraphQLID) },
+        text: { type: GraphQLNonNull(GraphQLString) },
+        date: { type: GraphQLNonNull(GraphQLString) },
+      },
+      async resolve(parent, { blog, user, text, date }) {
+        let comment: DocumentType;
+        const session = await startSession();
+        try {
+          session.startTransaction({ session });
+          const existingBlog = await Blog.findById(blog);
+          const existingUser = await User.findById(user);
+          if (!existingUser || !existingBlog)
+            return new Error("User or blog does not exist!");
+          comment = new Comment({ text, date, blog, user });
+          //@ts-ignore
+          existingBlog.comments.push(comment);
+          //@ts-ignore
+          existingUser.comments.push(comment);
+          await existingBlog.save({ session });
+          await existingUser.save({ session });
+          return await comment.save({ session });
+        } catch (error) {
+          return new Error(error);
+        } finally {
+          session.commitTransaction();
+        }
+      },
+    },
+
+    //delete comment from blog
+    deleteComment: {
+      type: CommentType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+      },
+      async resolve(parent, { id }) {
+        let existingComment: DocumentType;
+        const session = await startSession();
+        try {
+          session.startTransaction({ session });
+          existingComment = await Comment.findById(id);
+          if (!existingComment) return new Error("Comment does not exist!");
+          //@ts-ignore
+          const existingBlog = await Blog.findById(existingComment.blog);
+          //@ts-ignore
+          const existingUser = await User.findById(existingComment.user);
+          if (!existingUser || !existingBlog)
+            return new Error("User or blog does not exist!");
+          //@ts-ignore
+          existingBlog.comments.pull(existingComment);
+          //@ts-ignore
+          existingUser.comments.pull(existingComment);
+          await existingBlog.save({ session });
+          await existingUser.save({ session });
+          return await Comment.findOneAndDelete(existingComment.id);
+        } catch (error) {
+          return new Error(error);
+        } finally {
+          session.commitTransaction();
         }
       },
     },
