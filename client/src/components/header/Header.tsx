@@ -3,6 +3,7 @@ import { ImBlogger } from "react-icons/im";
 import { headerStyles } from "../../styles/header-styles";
 import { useState } from "react";
 import { BiLogInCircle } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [value, setValue] = useState(0);
@@ -25,12 +26,16 @@ const Header = () => {
             value={value}
             onChange={(e, val) => setValue(val)}
           >
-            <Tab disableRipple label="Home" />
-            <Tab disableRipple label="Blogs" />
+            {/* @ts-ignore */}
+            <Tab LinkComponent={Link} to="/" disableRipple label="Home" />
+            {/* @ts-ignore */}
+            <Tab LinkComponent={Link} to="/blogs" disableRipple label="Blogs" />
           </Tabs>
-          <Button endIcon={<BiLogInCircle />} sx={headerStyles.authBtn}>
-            Auth
-          </Button>
+          <Link to="/auth" style={{ textDecoration: "none" }}>
+            <Button endIcon={<BiLogInCircle />} sx={headerStyles.authBtn}>
+              Auth
+            </Button>
+          </Link>
         </Box>
       </Toolbar>
     </AppBar>
