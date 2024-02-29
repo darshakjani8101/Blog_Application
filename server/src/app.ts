@@ -3,12 +3,14 @@ import { config } from "dotenv";
 import { connectToDatabase } from "./utils/connection";
 import { graphqlHTTP } from "express-graphql";
 import schema from "./handlers/handlers";
+import cors from "cors";
 
 //dotenv config
 config();
 
 const app = express();
 
+app.use(cors());
 app.use("/graphql", graphqlHTTP({ schema: schema, graphiql: true }));
 
 //connections and listeners
