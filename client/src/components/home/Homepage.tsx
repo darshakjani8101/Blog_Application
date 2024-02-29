@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
 import { homepageStyles } from "../../styles/homepage-styles";
 import Footer from "./Footer";
 
