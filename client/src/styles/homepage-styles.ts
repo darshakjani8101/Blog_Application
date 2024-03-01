@@ -1,8 +1,4 @@
-import { SxProps } from "@mui/material";
-
-export type Styles = {
-  [key: string]: SxProps;
-};
+import { Styles } from "../types/types";
 
 export const homepageStyles: Styles = {
   container: {

@@ -1,3 +1,5 @@
+import { SxProps } from "@mui/material";
+
 export type UserType = {
   id: string;
   name: string;
@@ -21,4 +23,8 @@ export type CommentType = {
   date: Date;
   blog: BlogType;
   user: UserType;
+};
+
+export type Styles = {
+  [key: string]: SxProps;
 };

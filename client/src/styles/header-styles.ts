@@ -1,4 +1,4 @@
-import { Styles } from "./homepage-styles";
+import { Styles } from "../types/types";
 
 export const headerStyles: Styles = {
   appBar: {

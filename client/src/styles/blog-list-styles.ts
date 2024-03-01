@@ -1,4 +1,4 @@
-import { Styles } from "./homepage-styles";
+import { Styles } from "../types/types";
 
 const colors = [
   "#ee1d25",

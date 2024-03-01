@@ -14,7 +14,7 @@ const Header = () => {
         <ImBlogger
           size={"30px"}
           style={{
-            borderRadius: "50px",
+            borderRadius: "50%",
             padding: "10px",
             background: "#6c5252",
           }}
