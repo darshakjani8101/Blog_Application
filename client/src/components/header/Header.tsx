@@ -5,6 +5,7 @@ import { useState } from "react";
 import { BiLogInCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import UserMenu from "./user/UserMenu";
 
 const Header = () => {
   const [value, setValue] = useState(0);
@@ -34,7 +35,7 @@ const Header = () => {
             <Tab LinkComponent={Link} to="/blogs" disableRipple label="Blogs" />
           </Tabs>
           {isLoggedIn ? (
-            <></>
+            <UserMenu />
           ) : (
             <Link to="/auth" style={{ textDecoration: "none" }}>
               <Button endIcon={<BiLogInCircle />} sx={headerStyles.authBtn}>
