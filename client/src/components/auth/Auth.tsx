@@ -5,6 +5,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { USER_LOGIN, USER_SIGNUP } from "../../graphql/mutations";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth-slice";
+import { useNavigate } from "react-router-dom";
 
 type Inputs = {
   name: string;
@@ -20,24 +23,43 @@ const Auth = () => {
     handleSubmit,
   } = useForm<Inputs>();
 
-  const [login, loginResponse] = useMutation(USER_LOGIN);
-  const [signup, signupResponse] = useMutation(USER_SIGNUP);
+  const [login] = useMutation(USER_LOGIN);
+  const [signup] = useMutation(USER_SIGNUP);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onResReceived = (data: any) => {
+    if (data.signup) {
+      const { id, email, name } = data.signup;
+      localStorage.setItem("userData", JSON.stringify({ id, email, name }));
+    } else {
+      const { id, email, name } = data.login;
+      localStorage.setItem("userData", JSON.stringify({ id, email, name }));
+    }
+    dispatch(authActions.login());
+    return navigate("/blogs");
+  };
 
   const onSubmit = async ({ name, email, password }: Inputs) => {
     if (isSignup) {
       //signup
       try {
-        await signup({ variables: { name, email, password } });
-        console.log(signupResponse?.data);
-      } catch (error) {
+        const res = await signup({ variables: { name, email, password } });
+        if (res.data) {
+          onResReceived(res.data);
+        }
+      } catch (error: any) {
         console.log(error);
       }
     } else {
       //login
       try {
-        await login({ variables: { email, password } });
-        console.log(loginResponse?.data);
-      } catch (error) {
+        const res = await login({ variables: { email, password } });
+        if (res.data) {
+          onResReceived(res.data);
+        }
+      } catch (error: any) {
         console.log(error);
       }
     }

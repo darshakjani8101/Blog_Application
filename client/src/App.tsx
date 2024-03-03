@@ -4,8 +4,20 @@ import Footer from "./components/footer/Footer";
 import Homepage from "./components/home/Homepage";
 import Blogs from "./components/blogs/Blogs";
 import Auth from "./components/auth/Auth";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { authActions } from "./store/auth-slice";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const data: string = localStorage.getItem("userData") as string;
+    if (JSON.parse(data) !== null) {
+      dispatch(authActions.login());
+    }
+  }, []);
+
   return (
     <div>
       <header>

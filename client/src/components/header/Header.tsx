@@ -4,9 +4,11 @@ import { headerStyles } from "../../styles/header-styles";
 import { useState } from "react";
 import { BiLogInCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [value, setValue] = useState(0);
+  const isLoggedIn = useSelector((state: any) => state.isLoggedIn);
 
   return (
     <AppBar sx={headerStyles.appBar}>
@@ -31,11 +33,15 @@ const Header = () => {
             {/* @ts-ignore */}
             <Tab LinkComponent={Link} to="/blogs" disableRipple label="Blogs" />
           </Tabs>
-          <Link to="/auth" style={{ textDecoration: "none" }}>
-            <Button endIcon={<BiLogInCircle />} sx={headerStyles.authBtn}>
-              Auth
-            </Button>
-          </Link>
+          {isLoggedIn ? (
+            <></>
+          ) : (
+            <Link to="/auth" style={{ textDecoration: "none" }}>
+              <Button endIcon={<BiLogInCircle />} sx={headerStyles.authBtn}>
+                Auth
+              </Button>
+            </Link>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

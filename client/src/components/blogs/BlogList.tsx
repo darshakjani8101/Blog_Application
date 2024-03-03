@@ -8,7 +8,6 @@ type Props = {
 };
 
 const BlogList = (props: Props) => {
-  console.log(props.blogs);
   return (
     <Box sx={blogStyles.container}>
       {props.blogs.map((blog: BlogType, index: number) => (
