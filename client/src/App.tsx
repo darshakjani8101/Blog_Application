@@ -7,6 +7,8 @@ import Auth from "./components/auth/Auth";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { authActions } from "./store/auth-slice";
+import AddBlog from "./components/blogs/AddBlog";
+import Profile from "./components/header/user/Profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +30,8 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/add" element={<AddBlog />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </main>
       <footer>

@@ -19,3 +19,16 @@ export const USER_SIGNUP = gql`
     }
   }
 `;
+
+export const ADD_BLOG = gql`
+  mutation addBlog(
+    $title: String!
+    $content: String!
+    $date: String!
+    $user: ID!
+  ) {
+    addBlog(title: $title, content: $content, date: $date, user: $user) {
+      title
+    }
+  }
+`;

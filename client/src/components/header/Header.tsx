@@ -1,15 +1,29 @@
-import { AppBar, Box, Button, Tab, Tabs, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { ImBlogger } from "react-icons/im";
 import { headerStyles } from "../../styles/header-styles";
 import { useState } from "react";
 import { BiLogInCircle } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import UserMenu from "./user/UserMenu";
 
 const Header = () => {
   const [value, setValue] = useState(0);
   const isLoggedIn = useSelector((state: any) => state.isLoggedIn);
+  const navigate = useNavigate();
+
+  const handleAddBlog = () => {
+    navigate("/add");
+  };
 
   return (
     <AppBar sx={headerStyles.appBar}>
@@ -22,6 +36,14 @@ const Header = () => {
             background: "#6c5252",
           }}
         />
+        <Box onClick={handleAddBlog} sx={headerStyles.addLink}>
+          <Typography fontFamily="Work Sans" fontSize={20}>
+            Post New Blog
+          </Typography>
+          <IconButton color="inherit">
+            <ImBlogger />
+          </IconButton>
+        </Box>
         <Box sx={headerStyles.tabContainer}>
           <Tabs
             textColor="inherit"

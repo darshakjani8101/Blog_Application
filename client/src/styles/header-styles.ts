@@ -22,4 +22,19 @@ export const headerStyles: Styles = {
       bgcolor: "#ff9400",
     },
   },
+  addLink: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 1,
+    position: "absolute",
+    right: "40%",
+    width: "250px",
+    padding: "5px",
+    ":hover": {
+      bgcolor: "rgba(0,0,0,0.5)",
+      borderRadius: 10,
+      cursor: "pointer",
+    },
+  },
 };
