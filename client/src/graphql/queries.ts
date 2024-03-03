@@ -13,3 +13,16 @@ export const GET_BLOGS = gql`
     }
   }
 `;
+
+export const GET_USER_BLOGS = gql`
+  query user($id: ID!) {
+    user(id: $id) {
+      blogs {
+        id
+        title
+        content
+        date
+      }
+    }
+  }
+`;

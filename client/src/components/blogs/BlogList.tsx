@@ -10,8 +10,8 @@ type Props = {
 const BlogList = (props: Props) => {
   return (
     <Box sx={blogStyles.container}>
-      {props.blogs.map((blog: BlogType, index: number) => (
-        <BlogItem key={index} blog={blog} />
+      {props.blogs.map((blog: BlogType) => (
+        <BlogItem key={blog.id} blog={blog} />
       ))}
     </Box>
   );

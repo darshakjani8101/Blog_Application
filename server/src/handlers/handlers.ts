@@ -30,6 +30,19 @@ const RootQuery = new GraphQLObjectType({
       },
     },
 
+    //get user by id
+    user: {
+      type: UserType,
+      args: { id: { type: GraphQLNonNull(GraphQLID) } },
+      async resolve(parent, { id }) {
+        try {
+          return await User.findById(id).populate("blogs");
+        } catch (error) {
+          return new Error(error);
+        }
+      },
+    },
+
     //get all blogs
     blogs: {
       type: GraphQLList(BlogType),
