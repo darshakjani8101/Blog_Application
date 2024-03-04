@@ -2,14 +2,21 @@ import { Box, Card, Typography } from "@mui/material";
 import { BlogType } from "../../types/types";
 import { blogStyles, randomBgColor } from "../../styles/blog-list-styles";
 import { FcCalendar } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   blog: BlogType;
 };
 
 const BlogItem = (props: Props) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    return navigate(`/blog/view/${props.blog.id}`);
+  };
+
   return (
-    <Card sx={blogStyles.card}>
+    <Card onClick={handleCardClick} sx={blogStyles.card}>
       <Box sx={{ ...blogStyles.cardHeader, bgcolor: randomBgColor() }}>
         <Box sx={blogStyles.dateContainer}>
           <FcCalendar size={"25px"} />

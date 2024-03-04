@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { authActions } from "./store/auth-slice";
 import AddBlog from "./components/blogs/AddBlog";
 import Profile from "./components/header/user/Profile";
+import ViewBlog from "./components/blogs/ViewBlog";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/add" element={<AddBlog />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/blog/view/:id" element={<ViewBlog />} />
         </Routes>
       </main>
       <footer>
