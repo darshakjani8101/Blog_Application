@@ -21,6 +21,12 @@ export const viewBlogStyles: Styles = {
     alignItems: "center",
     gap: 1,
   },
+  dateContainer: {
+    display: "flex",
+    alignItems: "center",
+    ml: "auto",
+    gap: 1,
+  },
   blogTitle: {
     fontSize: "30px",
     fontFamily: "Arvo",

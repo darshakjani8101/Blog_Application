@@ -1,16 +1,26 @@
 import { useQuery } from "@apollo/client";
 import { GET_BLOGS } from "../../graphql/queries";
 import BlogList from "./BlogList";
-import { LinearProgress } from "@mui/material";
+import { Dialog, DialogContent, LinearProgress } from "@mui/material";
 
 const Blogs = () => {
   const { loading, data, error } = useQuery(GET_BLOGS);
 
-  if (error) return <p>Error...</p>;
+  if (loading) {
+    return <LinearProgress />;
+  }
 
-  return loading ? (
-    <LinearProgress />
-  ) : (
+  if (error) {
+    return (
+      <Dialog open={true}>
+        <DialogContent>
+          Error while fetching blogs. Please refresh the page.
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
     data && (
       <div>
         <BlogList blogs={data.blogs} />

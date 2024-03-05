@@ -55,6 +55,19 @@ const RootQuery = new GraphQLObjectType({
       },
     },
 
+    //get blog by id
+    blog: {
+      type: BlogType,
+      args: { id: { type: GraphQLNonNull(GraphQLID) } },
+      async resolve(parent, { id }) {
+        try {
+          return await Blog.findById(id).populate("user comments");
+        } catch (error) {
+          return new Error(error);
+        }
+      },
+    },
+
     //get all comments
     comments: {
       type: GraphQLList(CommentType),

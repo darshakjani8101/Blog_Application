@@ -1,4 +1,11 @@
-import { Avatar, Box, LinearProgress, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Dialog,
+  DialogContent,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import { profileStyles } from "../../../styles/profile-styles";
 import BlogItem from "../../blogs/BlogItem";
 import { useQuery } from "@apollo/client";
@@ -13,13 +20,21 @@ const Profile = () => {
     },
   });
 
-  if (error) {
-    return <p>ERROR</p>;
+  if (loading) {
+    return <LinearProgress />;
   }
 
-  return loading ? (
-    <LinearProgress />
-  ) : (
+  if (error) {
+    return (
+      <Dialog open={true}>
+        <DialogContent>
+          Error while fetching user profile. Please refresh the page.
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
     data && (
       <Box sx={profileStyles.container}>
         <Box sx={profileStyles.blogsContainer}>
