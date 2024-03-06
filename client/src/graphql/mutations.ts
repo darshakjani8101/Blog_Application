@@ -34,6 +34,24 @@ export const ADD_BLOG = gql`
   }
 `;
 
+export const UPDATE_BLOG = gql`
+  mutation updateBlog($id: ID!, $title: String!, $content: String!) {
+    updateBlog(id: $id, title: $title, content: $content) {
+      id
+      title
+    }
+  }
+`;
+
+export const DELETE_BLOG = gql`
+  mutation deleteBlog($id: ID!) {
+    deleteBlog(id: $id) {
+      id
+      title
+    }
+  }
+`;
+
 export const ADD_COMMENT = gql`
   mutation addCommentToBlog(
     $text: String!

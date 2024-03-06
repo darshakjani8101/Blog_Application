@@ -10,6 +10,7 @@ import { authActions } from "./store/auth-slice";
 import AddBlog from "./components/blogs/AddBlog";
 import Profile from "./components/header/user/Profile";
 import ViewBlog from "./components/blogs/ViewBlog";
+import UpdateBlog from "./components/blogs/UpdateBlog";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function App() {
           <Route path="/add" element={<AddBlog />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/blog/view/:id" element={<ViewBlog />} />
+          <Route path="/blog/update/:id" element={<UpdateBlog />} />
         </Routes>
       </main>
       <footer>

@@ -43,7 +43,7 @@ const Profile = () => {
           </Typography>
           <Box sx={profileStyles.cardsContainer}>
             {data.user.blogs.map((blog: BlogType) => (
-              <BlogItem key={blog.id} blog={blog} />
+              <BlogItem key={blog.id} blog={blog} showActions={true} />
             ))}
           </Box>
         </Box>
