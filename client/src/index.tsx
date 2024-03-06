@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { Toaster } from "react-hot-toast";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -21,6 +22,7 @@ root.render(
     <ApolloProvider client={client}>
       <BrowserRouter>
         <React.StrictMode>
+          <Toaster />
           <App />
         </React.StrictMode>
       </BrowserRouter>

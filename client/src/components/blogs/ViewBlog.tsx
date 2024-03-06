@@ -18,6 +18,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { GET_BLOG_BY_ID } from "../../graphql/queries";
 import { useForm } from "react-hook-form";
 import { ADD_COMMENT, DELETE_COMMENT } from "../../graphql/mutations";
+import toast from "react-hot-toast";
 
 const getInitials = (name: string) => {
   const nameArr = name.split(" ");
@@ -48,10 +49,14 @@ const ViewBlog = () => {
       const blog = id;
 
       try {
-        const res = await addCommentToBlog({
+        await addCommentToBlog({
           variables: { text, date, user, blog },
         });
-        await refetch();
+        toast.promise(refetch(), {
+          error: "Unexpected error!",
+          success: "Comment added!",
+          loading: "Hold on!",
+        });
       } catch (error: any) {
         console.log(error);
       }
@@ -60,10 +65,14 @@ const ViewBlog = () => {
 
   const deleteCommentHandler = async (id: string) => {
     try {
-      const res = await deleteComment({
+      await deleteComment({
         variables: { id },
       });
-      await refetch();
+      toast.promise(refetch(), {
+        error: "Unexpected error!",
+        success: "Comment deleted!",
+        loading: "Hold on!",
+      });
     } catch (error: any) {
       console.log(error);
     }
