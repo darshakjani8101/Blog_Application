@@ -28,7 +28,35 @@ export const ADD_BLOG = gql`
     $user: ID!
   ) {
     addBlog(title: $title, content: $content, date: $date, user: $user) {
+      id
       title
+    }
+  }
+`;
+
+export const ADD_COMMENT = gql`
+  mutation addCommentToBlog(
+    $text: String!
+    $date: String!
+    $user: ID!
+    $blog: ID!
+  ) {
+    addCommentToBlog(text: $text, date: $date, user: $user, blog: $blog) {
+      id
+      text
+      user {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const DELETE_COMMENT = gql`
+  mutation deleteComment($id: ID!) {
+    deleteComment(id: $id) {
+      id
+      text
     }
   }
 `;

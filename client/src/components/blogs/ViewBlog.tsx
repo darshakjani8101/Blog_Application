@@ -11,11 +11,13 @@ import {
 import { viewBlogStyles } from "../../styles/view-blog-styles";
 import { FaComments } from "react-icons/fa";
 import { BiSend, BiSolidCalendar } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
 import { ImMail } from "react-icons/im";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_BLOG_BY_ID } from "../../graphql/queries";
-import { CommentType } from "../../types/types";
+import { useForm } from "react-hook-form";
+import { ADD_COMMENT, DELETE_COMMENT } from "../../graphql/mutations";
 
 const getInitials = (name: string) => {
   const nameArr = name.split(" ");
@@ -27,10 +29,45 @@ const getInitials = (name: string) => {
 };
 
 const ViewBlog = () => {
+  const { register, handleSubmit } = useForm();
   const id = useParams().id;
-  const { loading, data, error } = useQuery(GET_BLOG_BY_ID, {
+
+  const user = JSON.parse(localStorage.getItem("userData") as string).id;
+
+  const { loading, data, error, refetch } = useQuery(GET_BLOG_BY_ID, {
     variables: { id },
   });
+
+  const [addCommentToBlog] = useMutation(ADD_COMMENT);
+  const [deleteComment] = useMutation(DELETE_COMMENT);
+
+  const addCommentHandler = async (data: any) => {
+    const text = data.comment;
+    if (text && text?.trim().length > 0) {
+      const date = new Date();
+      const blog = id;
+
+      try {
+        const res = await addCommentToBlog({
+          variables: { text, date, user, blog },
+        });
+        await refetch();
+      } catch (error: any) {
+        console.log(error);
+      }
+    }
+  };
+
+  const deleteCommentHandler = async (id: string) => {
+    try {
+      const res = await deleteComment({
+        variables: { id },
+      });
+      await refetch();
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   if (loading) {
     return <LinearProgress />;
@@ -82,24 +119,25 @@ const ViewBlog = () => {
           </Typography>
           <Box sx={viewBlogStyles.inputLayout}>
             <TextField
+              {...register("comment")}
               type="textarea"
-              sx={viewBlogStyles.TextField}
+              sx={viewBlogStyles.textField}
               InputProps={{
                 style: {
-                  width: "50vw",
+                  width: "100%",
                   borderRadius: "10px",
                   fontFamily: "Work Sans",
                 },
               }}
             />
-            <IconButton>
+            <IconButton onClick={handleSubmit(addCommentHandler)}>
               <BiSend size={30} />
             </IconButton>
           </Box>
         </Box>
         {data.blog.comments.length > 0 && (
           <Box sx={viewBlogStyles.comments}>
-            {data.blog.comments.map((comment: CommentType) => (
+            {data.blog.comments.map((comment: any) => (
               <Box key={comment.id} sx={viewBlogStyles.commentItem}>
                 <Avatar sx={viewBlogStyles.commentAvatar}>
                   {getInitials(comment.user.name)}
@@ -107,6 +145,15 @@ const ViewBlog = () => {
                 <Typography sx={viewBlogStyles.commentText}>
                   {comment.text}
                 </Typography>
+                {user === comment.user.id && (
+                  <IconButton
+                    onClick={() => deleteCommentHandler(comment.id)}
+                    sx={{ ml: "auto" }}
+                    color="error"
+                  >
+                    <AiOutlineDelete />
+                  </IconButton>
+                )}
               </Box>
             ))}
           </Box>

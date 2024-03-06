@@ -49,7 +49,7 @@ export const viewBlogStyles: Styles = {
   },
   commentInputContainer: {
     padding: 2,
-    width: "51%",
+    width: "98%",
     height: "40%",
   },
   inputLayout: {
