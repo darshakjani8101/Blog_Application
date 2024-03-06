@@ -19,6 +19,7 @@ import { GET_BLOG_BY_ID } from "../../graphql/queries";
 import { useForm } from "react-hook-form";
 import { ADD_COMMENT, DELETE_COMMENT } from "../../graphql/mutations";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const getInitials = (name: string) => {
   const nameArr = name.split(" ");
@@ -33,7 +34,8 @@ const ViewBlog = () => {
   const { register, handleSubmit } = useForm();
   const id = useParams().id;
 
-  const user = JSON.parse(localStorage.getItem("userData") as string).id;
+  const user = JSON.parse(localStorage.getItem("userData") as string)?.id;
+  const isLoggedIn: boolean = useSelector((state: any) => state.isLoggedIn);
 
   const { loading, data, error, refetch } = useQuery(GET_BLOG_BY_ID, {
     variables: { id },
@@ -124,25 +126,29 @@ const ViewBlog = () => {
         </Box>
         <Box sx={viewBlogStyles.commentInputContainer}>
           <Typography margin={2} fontFamily={"Arvo"}>
-            Add Your Comment
+            {isLoggedIn
+              ? "Add Your Comment"
+              : "Please login to add your comment"}
           </Typography>
-          <Box sx={viewBlogStyles.inputLayout}>
-            <TextField
-              {...register("comment")}
-              type="textarea"
-              sx={viewBlogStyles.textField}
-              InputProps={{
-                style: {
-                  width: "100%",
-                  borderRadius: "10px",
-                  fontFamily: "Work Sans",
-                },
-              }}
-            />
-            <IconButton onClick={handleSubmit(addCommentHandler)}>
-              <BiSend size={30} />
-            </IconButton>
-          </Box>
+          {isLoggedIn && (
+            <Box sx={viewBlogStyles.inputLayout}>
+              <TextField
+                {...register("comment")}
+                type="textarea"
+                sx={viewBlogStyles.textField}
+                InputProps={{
+                  style: {
+                    width: "100%",
+                    borderRadius: "10px",
+                    fontFamily: "Work Sans",
+                  },
+                }}
+              />
+              <IconButton onClick={handleSubmit(addCommentHandler)}>
+                <BiSend size={30} />
+              </IconButton>
+            </Box>
+          )}
         </Box>
         {data.blog.comments.length > 0 && (
           <Box sx={viewBlogStyles.comments}>

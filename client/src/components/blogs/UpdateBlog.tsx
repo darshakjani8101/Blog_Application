@@ -48,7 +48,7 @@ const UpdateBlog = () => {
         });
         toast.promise(refetch(), {
           error: "Unexpected error!",
-          success: "Blog updated!",
+          success: "Updated successfully!",
           loading: "Hold on!",
         });
       } catch (error: any) {

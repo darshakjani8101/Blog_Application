@@ -8,6 +8,7 @@ import { USER_LOGIN, USER_SIGNUP } from "../../graphql/mutations";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth-slice";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 type Inputs = {
   name: string;
@@ -42,25 +43,30 @@ const Auth = () => {
   };
 
   const onSubmit = async ({ name, email, password }: Inputs) => {
+    toast.loading("Hold on!", { id: "userauth" });
     if (isSignup) {
       //signup
       try {
         const res = await signup({ variables: { name, email, password } });
         if (res.data) {
+          toast.success("Signed up successfully!", { id: "userauth" });
           onResReceived(res.data);
         }
       } catch (error: any) {
         console.log(error);
+        toast.error("Unexpected error!", { id: "userauth" });
       }
     } else {
       //login
       try {
         const res = await login({ variables: { email, password } });
         if (res.data) {
+          toast.success("Logged in successfully!", { id: "userauth" });
           onResReceived(res.data);
         }
       } catch (error: any) {
         console.log(error);
+        toast.error("Unexpected error!", { id: "userauth" });
       }
     }
   };

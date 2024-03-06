@@ -24,6 +24,10 @@ export const GET_USER_BLOGS = gql`
         title
         content
         date
+        user {
+          id
+          name
+        }
       }
     }
   }

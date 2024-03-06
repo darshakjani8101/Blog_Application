@@ -29,20 +29,22 @@ export const homepageStyles: Styles = {
     alignItems: "center",
     justifyContent: "center",
     height: "20vh",
-    gap: 20,
+    gap: "20px",
   },
   footerBtn: {
     borderRadius: 10,
     bgcolor: "blueviolet",
-    width: 200,
+    width: "20%",
+    maxWidth: "200px",
     ":hover": {
       bgcolor: "#bd63fa",
     },
+    fontSize: { lg: 12, md: 12, sm: 8, xs: 8 },
   },
   footerText: {
     fontFamily: "Work Sans",
     fontWeight: 500,
-    fontSize: 20,
+    fontSize: { lg: 20, md: 18, sm: 12, xs: 10 },
     color: "white",
   },
 };

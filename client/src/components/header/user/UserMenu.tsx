@@ -16,7 +16,6 @@ const UserMenu = () => {
 
   const handleLogout = () => {
     dispatch(authActions.logout());
-    localStorage.removeItem("userData");
     navigate("/");
   };
 

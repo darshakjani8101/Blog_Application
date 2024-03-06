@@ -3,11 +3,14 @@ import { addStyles, htmlElmStyles } from "../../styles/add-blog-styles";
 import { useRef } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_BLOG } from "../../graphql/mutations";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AddBlog = () => {
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const contentRef = useRef<HTMLParagraphElement | null>(null);
   const [addBlog] = useMutation(ADD_BLOG);
+  const navigate = useNavigate();
 
   const handlePublish = async () => {
     const title = headingRef.current?.innerText;
@@ -22,12 +25,16 @@ const AddBlog = () => {
       const date = new Date();
       const user = JSON.parse(localStorage.getItem("userData") as string).id;
 
+      toast.loading("Hold on!", { id: "addblog" });
       try {
         const res = await addBlog({
           variables: { title, content, date, user },
         });
+        toast.success("Published successfully!", { id: "addblog" });
+        return navigate("/blogs");
       } catch (error: any) {
         console.log(error);
+        toast.error("Unexpected error!", { id: "addblog" });
       }
     }
   };

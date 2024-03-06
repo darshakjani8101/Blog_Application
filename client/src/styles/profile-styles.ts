@@ -4,7 +4,6 @@ export const profileStyles: Styles = {
   container: {
     display: "flex",
     flex: 1,
-    minHeight: "64vh",
   },
   blogsContainer: {
     display: "flex",

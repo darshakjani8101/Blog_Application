@@ -43,7 +43,8 @@ export const blogStyles: Styles = {
   cardHeader: {
     fontFamily: "Work Sans",
     fontSize: "72 px",
-    height: "35%",
+    //minHeight: "35%",
+    height: "auto",
     padding: 1,
     mb: 2,
     color: "white",
@@ -58,7 +59,7 @@ export const blogStyles: Styles = {
   },
   cardContent: {
     width: "100%",
-    height: "65%",
+    //height: "65%",
     fontSize: "20px",
     fontWeight: "500",
   },
@@ -68,13 +69,28 @@ export const blogStyles: Styles = {
     //color: "white",
     //textTransform: "uppercase",
     //textDecoration: "underline",
-    textUnderlineOffset: "5px",
+    //textUnderlineOffset: "5px",
     fontFamily: "Work Sans",
+    fontSize: { lg: 32, md: 28, sm: 22, xs: 18 },
     textShadow: "2px 7px 20px #000",
+    ":hover": {
+      textDecoration: "underline",
+      textUnderlineOffset: "5px",
+    },
   },
   contentText: {
     padding: 2,
     fontSize: "20px",
     fontWeight: "500",
+    fontFamily: "Work Sans",
+  },
+  author: {
+    display: "flex",
+    alignItems: "center",
+    gap: 1,
+    fontWeight: "bold",
+    fontFamily: "Work Sans",
+    fontSize: { lg: 16, md: 14, sm: 12, xs: 10 },
+    pt: 1,
   },
 };
