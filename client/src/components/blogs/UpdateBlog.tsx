@@ -19,6 +19,7 @@ const UpdateBlog = () => {
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const contentRef = useRef<HTMLParagraphElement | null>(null);
   const [updateBlog] = useMutation(UPDATE_BLOG);
+  const userName = JSON.parse(localStorage.getItem("userData") as string).name;
 
   const { loading, data, error, refetch } = useQuery(GET_BLOG_BY_ID, {
     variables: { id },
@@ -75,8 +76,13 @@ const UpdateBlog = () => {
     data && (
       <Box sx={addStyles.container}>
         <Box sx={addStyles.blogHeader}>
-          <Typography>Authored By: Darshak</Typography>
-          <Button onClick={handlePublish} color="success" variant="contained">
+          <Typography fontFamily="Arvo">Authored By: {userName}</Typography>
+          <Button
+            sx={{ borderRadius: 10 }}
+            onClick={handlePublish}
+            color="success"
+            variant="contained"
+          >
             Publish Update
           </Button>
         </Box>

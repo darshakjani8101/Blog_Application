@@ -11,6 +11,7 @@ const AddBlog = () => {
   const contentRef = useRef<HTMLParagraphElement | null>(null);
   const [addBlog] = useMutation(ADD_BLOG);
   const navigate = useNavigate();
+  const userName = JSON.parse(localStorage.getItem("userData") as string).name;
 
   const handlePublish = async () => {
     const title = headingRef.current?.innerText;
@@ -42,8 +43,13 @@ const AddBlog = () => {
   return (
     <Box sx={addStyles.container}>
       <Box sx={addStyles.blogHeader}>
-        <Typography>Authored By: Darshak</Typography>
-        <Button onClick={handlePublish} color="success" variant="contained">
+        <Typography fontFamily="Arvo">Authored By: {userName}</Typography>
+        <Button
+          sx={{ borderRadius: 10 }}
+          onClick={handlePublish}
+          color="success"
+          variant="contained"
+        >
           Publish
         </Button>
       </Box>
