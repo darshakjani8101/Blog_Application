@@ -11,7 +11,7 @@ config();
 const app = express();
 
 app.use(cors());
-app.use("/graphql", graphqlHTTP({ schema: schema, graphiql: true }));
+app.use("/graphql", graphqlHTTP({ schema: schema, graphiql: false }));
 
 //connections and listeners
 const PORT = process.env.PORT || 5000;
