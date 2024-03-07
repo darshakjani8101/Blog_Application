@@ -1,85 +1,80 @@
-# MERN Stack AI Chatbot
+# MERN Stack Blog Application
 
-This is an AI Chatbot application, inspired by ChatGPT, by using MERN Stack and OpenAI.
-
-It's a customized chatbot where each message of the user is stored in DB and can be retrieved and deleted.
-
-It's a completely secure application using JWT Tokens, HTTP-Only Cookies, Signed Cookies, Password Encryption, and Middleware Chains.
+Welcome to the Blog Application! This application is built using the MERN stack (MongoDB, Express.js, React.js, Node.js), GraphQL, and Material UI. It provides functionalities for user authentication, creating, adding, updating, and deleting blogs, as well as adding and deleting comments on blogs.
 
 ## Features
 
 - User Authentication and Authorization System
-- Express-Validators Middleware
-- Storing User's Chats in MongoDB
-- Custom Authentication System
-- JWT Authorization Tokens
+- GraphQL for API efficiency
+- Storing User's blogs and comments in MongoDB
 - Protecting User Routes
-- Modern React App with Vite
-- Beautiful Chat UI with Material UI Library
+- Modern React App with Google fonts
+- Beautiful UI with Material UI Library
 - Complete Responsive Design
-- Integrating OpenAI with MERN Stack
-- Storing User Sessions
+- Storing User Sessions in Local Storage
 
 ## Hosted Application
-You can access the hosted application at https://openai-chatbot-bxaa.onrender.com
+You can access the hosted application at https://dev-blog-yy15.onrender.com
+- Initial loading could take up to 1 minute as we have hosted it on a free hosting service.
+
+## Technologies Used
+- **MongoDB:** NoSQL database used for storing blog data.
+- **Express.js:** Backend framework for handling server-side logic and API requests.
+- **React.js:** Frontend library for building user interfaces.
+- **Node.js:** JavaScript runtime for server-side development.
+- **GraphQL:** Query language for interacting with the backend API efficiently.
+- **Material UI:** React component library for designing visually appealing user interfaces.
 
 ## Local Setup
 
 ### 1. Clone the repository:
 
 ```bash
-git clone https://github.com/darshakjani8101/OpenAI_Chatbot.git
+git clone https://github.com/darshakjani8101/Blog_Application.git
 ```
 
 ### 2. Install dependencies:
 
 ```bash
-# Navigate to the backend directory
-cd backend
+# Navigate to the server directory
+cd server
 npm install
 
-# Navigate to the frontend directory
-cd ../frontend
+# Navigate to the client directory
+cd ../client
 npm install
 ```
 
 ### 3. Set up environment variables:
-Create a .env file in the backend directory and add the following variables:
+Create a .env file in the server directory and add the following variables:
 
 ```bash
-OPEN_AI_SECRET=sk-your_openai_api_key
-OPENAI_ORGANIZATION_ID=your_openai_organization_id
 MONGODB_URL=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
-COOKIE_SECRET=your_cookie_secret
 PORT=5000
 ```
 
-### 4. Set up local URLs:
-Modify below mentioned files in both backend and frontend directories and setup the following variables:
+### 4. Set up local server URL in client:
+Modify below mentioned file in client directory and setup the following variable:
 
 ```bash
-# Open backend/src/app.ts file and setup below variable
-const origin = "http://localhost:5173";
-
-# Open frontend/src/main.tsx file and setup below variable
-axios.defaults.baseURL = "http://localhost:5000/api/v1";
+# Open client/src/index.tsx file and setup below variable
+uri: "http://localhost:5000/graphql";
 ```
 
 ### 5. Run the application:
 
 ```bash
-# Start the backend
-cd ../backend
+# Start the server
+cd ../server
 npm run dev
 
-# Start the frontend
-cd ../frontend
-npm run dev
+# Start the client
+cd ../client
+npm start
 ```
 
 ### 6. Access the application:
-Open your web browser and visit http://localhost:5173 to access the MERN stack AI chatbot application.
+Open your web browser and visit http://localhost:3000 to access the MERN stack blog application.
 
 ## Contributors
 ### Darshak Jani
