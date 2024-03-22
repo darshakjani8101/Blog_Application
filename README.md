@@ -1,3 +1,9 @@
+<div align="center">
+  <br />
+      <img src="https://github.com/darshakjani8101/Blog_Application/blob/main/client/public/readme_img.png" alt="Project Banner">
+  <br />
+</div>
+
 # MERN Stack Blog Application
 
 Welcome to the Blog Application! This application is built using the MERN stack (MongoDB, Express.js, React.js, Node.js), GraphQL, and Material UI. It provides functionalities for user authentication, creating, adding, updating, and deleting blogs, as well as adding and deleting comments on blogs.
